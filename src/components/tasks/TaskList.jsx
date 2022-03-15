@@ -3,14 +3,13 @@ import { Row, Col, Card, CardTitle, Badge, CardBody,
   Table, Alert, Button, Nav, NavItem, NavLink, TabContent,
   TabPane, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classnames from 'classnames';
-import { AiOutlineHeart, AiOutlineRetweet } from 'react-icons/ai';
-import { BsChat, BsUpload } from "react-icons/bs";
 import { FaEdit, FaTrashAlt} from "react-icons/fa"
 
 import { getAllTasks, deleteTask } from "../../utils/apicalls.js";
 
-import AddPost from './AddTask';
-import EditPost from './EditTask';
+import EditTask from './EditTask';
+import AddTask from './AddTask';
+
 
 export default function TaskList(props){
 
@@ -41,15 +40,16 @@ export default function TaskList(props){
           Task is going to be deleted:<br/><small><strong>{task.name}</strong></small>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => deleteTaskSel(tasks)}>Eliminar</Button>{' '}
-          <Button color="secondary" onClick={() => setShowDeleteModal(null)}>Cancelar</Button>
+          <Button color="primary" onClick={() => deleteTaskSel(task)}>Delete</Button>{' '}
+          <Button color="secondary" onClick={() => setShowDeleteModal(null)}>Cancel</Button>
         </ModalFooter>
       </Modal>
     );
   }
-  const deleteTaskSel = (tasks) => {
-    deleteTask(tasks.id)
+  const deleteTaskSel = (task) => {
+    deleteTask(task._id)
       .then((res) => checkDELETETask(res));
+      
   }
   //Check the response from server
   const checkDELETETask = (res) => {
@@ -59,11 +59,13 @@ export default function TaskList(props){
       setEdit(<Alert color="warning">Select a task from the list</Alert>);
       handleUpdateMyTasks();
     }else{
-      //TODO Show a modal when error from server
+      setShowDeleteModal(null);
+      setEdit(<Alert color="warning">Error deleting</Alert>);
+      handleUpdateMyTasks();
     }
   }
-  const handleShowEdit = (tasks) => {
-    setEdit(<EditPost tasks= {tasks} updateMyPosts = {handleUpdateMyTasks} />);
+  const handleShowEdit = (task) => {
+    setEdit(<EditTask task= {task} updateMyTasks = {handleUpdateMyTasks()} />);
   }
 
   useEffect(() =>{
@@ -74,7 +76,7 @@ export default function TaskList(props){
       {showDeleteModal}
       <Row>
         <Col xs="7">
-      <CardTitle tag="center"><Alert color="secondary"><strong>Total Tasks </strong><Badge pill>{tasks.length}</Badge></Alert></CardTitle>
+      <CardTitle tag="center"><Alert color="secondary"><strong>Project Name </strong><Badge pill>{tasks.length}</Badge></Alert></CardTitle>
       <Table>
         <tbody>
           { tasks.map((task, index) => {
@@ -126,7 +128,7 @@ export default function TaskList(props){
             <TabPane tabId="1">
               <Row>
                 <Col sm="12">
-                  <AddPost updateMyTasks = {handleUpdateMyTasks}/>
+                  <AddTask updateMyTasks = {handleUpdateMyTasks()}/>
                 </Col>
               </Row>
             </TabPane>

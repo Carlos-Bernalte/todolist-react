@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { Card, CardTitle, Label, Button, Form, FormGroup, Input } from 'reactstrap';
+import { Card, CardTitle, Label, Button, Form, FormGroup, Input} from 'reactstrap';
 
 import { postNewTask } from "../../utils/apicalls.js";
 
-export default function AddPost(props){
+export default function AddTask(props){
 
-  const [message, setMessage] = useState('');
-
-  const addPost = (e) => {
+  const [name, setName] = useState('');
+  const [priority, setPriority] = useState('1');
+  const [deathline, setDeathline] = useState('HOY');
+  const addTask = (e) => {
     e.preventDefault();
-    //Save post in database with post api call
-    postNewTask(sessionStorage.getItem('email'),sessionStorage.getItem('name'), sessionStorage.getItem('image'), message)
-      .then((res) => checkPOSTNewPost(res));
+    //Save task in database with post api call
+    postNewTask(name, priority, deathline)
+      .then((res) => checkPOSTNewTask(res));
   }
 
   //Check the response from the server
-  const checkPOSTNewPost = (res) => {
+  const checkPOSTNewTask = (res) => {
     if (res === "OK"){
-      //TODO Show Modal when a new post is added
-      props.updateMyPosts();
-    }else{
-      //TODO Show Modal when an error adding a new post occurs
-    }
+        props.handleUpdateMyTasks();
+      }else{
+
+      }
   }
 
   return (
@@ -30,10 +30,11 @@ export default function AddPost(props){
         <CardTitle tag="h5">New task</CardTitle>
         <Form>
           <FormGroup>
-            <Label for="aMensaje">Name:</Label>
-            <Input style={{height: '30px'}} type="textfield" name="message" value={message} id="aMensaje" placeholder="Introduce un mensaje" onChange={(e) => setMessage(e.target.value)}/>
+            <Label for="aName">Name: </Label>
+            <Input style={{height: '30px'}} type="textfield" name="name" value={name} id="aMensaje" placeholder="Task name" onChange={(e) => setName(e.target.value)}/>
+                
           </FormGroup>
-          <Button color="primary" onClick={addPost}>Add</Button>
+          <Button color="secondary" onClick={addTask}>Add</Button>
         </Form>
       </Card>
     </div>
