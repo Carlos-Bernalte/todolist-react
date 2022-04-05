@@ -17,7 +17,6 @@ h5,
 h6,
 label,
 span {
-  text-align:center;
   font-weight: 500;
   font-family: "Fira Sans", sans-serif;
 }
@@ -33,7 +32,12 @@ html,
   background-color: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
-
+.auth-card{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+}
 .auth-wrapper {
   display: flex;
   justify-content: center;
@@ -88,14 +92,14 @@ html,
 #sidebar-wrapper{
   min-height: 100vh !important;
   width: 100vw;
-  margin-left: -4rem;
+  margin-left: -2rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
 }
 #sidebar-wrapper .sidebar-heading {
-  padding: 0.875rem 1.25rem;
+  padding: 0.875rem 3.25rem;
 
 }
 
@@ -103,18 +107,11 @@ html,
   min-width: 0;
   width: 100%;
 }
-.sidebar-footer{
-  height: 50px;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  list-style-type: none;
-  padding-bottom:5.5em;
-  }
 .flexbox {
   align-items: center;
   display: flex;
   height: 75px;
+  font-size: 30px;
   justify-content: center;
   width: 100%;
 
