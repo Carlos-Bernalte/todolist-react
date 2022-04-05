@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
-import { Navbar,NavLink, NavbarBrand, Nav, NavItem, Row, Col, Container} from 'reactstrap';
+import React from 'react';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../App.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "./users/SignIn";
+import SignUp from "./users/SignUp";
+import Home from "./Home";
 
-function App(props) {
+function App() {
+  return (<Router>
 
-  return (
-    <Container>
-    <Row>
-      <Col>
-        <Navbar color="secondary" light expand="md">
-        <NavbarBrand><h4 className="text-white">To Do List</h4></NavbarBrand>
-          <Nav className="ml-auto" navbar>
-            <NavItem>
-            <NavLink href="#" onClick={() => props.history.push("/home")}><span className="text-white">Login</span></NavLink>
-            </NavItem>
-          </Nav>
-        </Navbar>
-      </Col>
-    </Row>
-  </Container>
+    <Switch>
+      <Route exact path='/' component={Login} />
+      <Route path="/sign-in" component={Login} />
+      <Route path="/sign-up" component={SignUp} />
+      <Route path="/home" component={Home} />
+    </Switch>
+
+  </Router>
   );
 }
-
 export default App;

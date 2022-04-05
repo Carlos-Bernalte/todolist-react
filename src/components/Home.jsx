@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
-import {Row, Col, Container} from 'reactstrap';
-import HeaderDashboard from './HeaderDashboard';
+import { Row, Col, Container } from 'reactstrap';
 import TaskList from './tasks/TaskList';
+import '../App.css';
+import Sidebar from './Sidebar';
+export default function Home(props) {
 
-export default function Home(props){
+  return (
 
-  const [show, setShow] = useState(<TaskList />);
-  const handleOnShow = (option) => {
-    if (option === 1){
-      setShow(<TaskList />);
-    }else if (option === 2){
-      setShow(<TaskList />);
-    }
-  }
-    return (
-        <Container>
-        <Row>
-          <Col><HeaderDashboard onShow= {handleOnShow} /></Col>
-        </Row>
-        <Row>
-          <Col xs="12">
-              {show}
-            </Col>
-        </Row>
-      </Container>
-    );
-  
+    <Container fluid>
+    <Row>
+        <Col xs={2} id="sidebar-wrapper">      
+          <Sidebar />
+        </Col>
+        <Col  xs={10} id="page-content-wrapper">
+          <TaskList />
+        </Col> 
+    </Row>
+
+</Container>
+
+  );
+
 }
