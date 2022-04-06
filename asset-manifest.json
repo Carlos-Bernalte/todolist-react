@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/todolist-react/static/css/main.e826c6f6.css",
-    "main.js": "/todolist-react/static/js/main.1f7bb279.js",
-    "index.html": "/todolist-react/index.html",
-    "main.e826c6f6.css.map": "/todolist-react/static/css/main.e826c6f6.css.map",
-    "main.1f7bb279.js.map": "/todolist-react/static/js/main.1f7bb279.js.map"
+    "main.css": "https://carlos-bernalte.github.io/todolist-react/static/css/main.e826c6f6.css",
+    "main.js": "https://carlos-bernalte.github.io/todolist-react/static/js/main.dd14d879.js",
+    "index.html": "https://carlos-bernalte.github.io/todolist-react/index.html",
+    "main.e826c6f6.css.map": "https://carlos-bernalte.github.io/todolist-react/static/css/main.e826c6f6.css.map",
+    "main.dd14d879.js.map": "https://carlos-bernalte.github.io/todolist-react/static/js/main.dd14d879.js.map"
   },
   "entrypoints": [
     "static/css/main.e826c6f6.css",
-    "static/js/main.1f7bb279.js"
+    "static/js/main.dd14d879.js"
   ]
 }
