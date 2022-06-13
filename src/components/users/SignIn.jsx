@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import './users.css';
-export default function Login(props) {
+export function Login(props) {
     return (
         <div className="App">
             <div className="auth-wrapper">
@@ -21,9 +22,11 @@ export default function Login(props) {
                                 <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                             </div>
                         </div>
+                        <Link to="/home">
                         <button type="submit" className="btn btn-primary btn-block" onClick={() => props.history.push('/home')}>Submit</button>
+                        </Link>
                         <p className="forgot-password text-right">
-                            Don't have an account?  <a href="/sign-up">Sing Up</a>
+                            Don't have an account? <Link to="/sign-up">Sing Up</Link>
                         </p>
                     </form>
                 </div>

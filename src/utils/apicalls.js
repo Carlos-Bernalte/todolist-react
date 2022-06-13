@@ -15,18 +15,18 @@ function deleteTask(idtask) {
     return API.delete('/tasks/'+idtask).then(result => result.data);
 }
 
-function postNewTask(name, priority, deathline) {
+function postNewTask(name, priority, deadline) {
     return API.post('/tasks', {
         name,
         priority,
-        deathline
+        deadline
     }).then(result => result.data);
 }
 
-  function putExistingTask(idtask, name,priority,deathline) {
-    return API.put('/posts/'+idtask, {
+  function putExistingTask(idtask, name,priority,deadline) {
+    return API.put('/tasks/'+idtask, {
         name,
         priority,
-        deathline
+        deadline
     }).then(result => result.data);
 }

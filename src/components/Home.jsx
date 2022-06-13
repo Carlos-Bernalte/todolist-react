@@ -3,8 +3,8 @@ import { Row, Col, Container } from 'reactstrap';
 import TaskList from './tasks/TaskList';
 import '../App.css';
 import Sidebar from './Sidebar';
-export default function Home(props) {
-
+export function Home(props) {
+  const [showProject, setProject] = useState(null);
   return (
 
     <Container fluid>

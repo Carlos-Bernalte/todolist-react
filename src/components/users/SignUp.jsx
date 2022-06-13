@@ -1,6 +1,7 @@
 import React from "react";
 import './users.css';
-export default function SignUp() {
+import { Link } from "react-router-dom";
+export function SignUp() {
 
     return (
         <div className="App">
@@ -26,7 +27,7 @@ export default function SignUp() {
                         </div>
                         <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                         <p className="forgot-password text-right">
-                            Already registered? <a href="/sign-in" >Sign In</a>
+                            Already registered? <Link to="/sign-in">Sing In</Link>
                         </p>
                     </form>
                 </div>
