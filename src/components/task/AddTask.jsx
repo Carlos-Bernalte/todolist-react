@@ -22,7 +22,7 @@ export default function AddTask(props) {
   const addTask = (e) => {
     e.preventDefault();
     //Save task in database with post api call
-    postNewTask(name, priority, deadline)
+    postNewTask(name, priority, deadline, props.project_id)
       .then((res) => checkPOSTNewTask(res));
   }
 

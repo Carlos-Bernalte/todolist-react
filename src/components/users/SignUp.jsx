@@ -73,7 +73,7 @@ export function SignUp(props) {
                         )}
                         
                         <p className="forgot-password text-right">
-                            Already registered? <Link to="/">Sing In</Link>
+                            Already registered? <Link to="/">Sign In</Link>
                         </p>
                         <p className="forgot-password text-left">
                             *Compulsory fields

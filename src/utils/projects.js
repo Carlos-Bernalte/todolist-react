@@ -16,6 +16,7 @@ function deleteProject(idProject) {
 }
 
 function postNewProject(name, owner) {
+    console.log(name, owner);
     return API.post('/Projects', {
         name,
         owner

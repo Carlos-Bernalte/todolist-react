@@ -7,19 +7,20 @@ export {
     putExistingTask
 }
 
-function getAllTasks() {
-    return API.get('/tasks').then(res => res.data);
+function getAllTasks(project_id) {
+    return API.get('/tasks/'+project_id).then(res => res.data);
 }
 
 function deleteTask(idtask) {
     return API.delete('/tasks/'+idtask).then(result => result.data);
 }
 
-function postNewTask(name, priority, deadline) {
+function postNewTask(name, priority, deadline,project_id ) {
     return API.post('/tasks', {
         name,
         priority,
-        deadline
+        deadline,
+        project_id
     }).then(result => result.data);
 }
 

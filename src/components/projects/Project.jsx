@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Row, Col, Card, CardTitle, Badge, CardBody,
+  Row, Col, Card, CardTitle, CardBody,
   Table, Alert, Button, Modal
 } from 'reactstrap';
 import { FaEdit, FaTrashAlt } from "react-icons/fa"
 import { AiOutlinePlus } from "react-icons/ai"
-import { ImCross } from "react-icons/im"
+import { ImCross} from "react-icons/im"
+import {BiSliderAlt} from "react-icons/bi"
 import { getAllTasks, deleteTask } from "../../utils/tasks.js";
 
-import EditTask from './EditTask';
-import AddTask from './AddTask';
+import EditTask from '../task/EditTask';
+import AddTask from '../task/AddTask';
+import EditProject from '../projects/EditProject';
 import './Task.css';
 
-export default function TaskList(props) {
+export default function Project(props) {
 
   const [tasks, setTasks] = useState([]);
   const [showEditTaskModal, setShowEditTaskModal] = useState(null);
   const [showAddTaskModal, setShowAddTaskModal] = useState(null);
-
+  const [showEditProjectModal, setShowEditProjectModal] = useState(null);
+ 
   const getTasks = () => {
-    getAllTasks().then((tasks) => {
+    console.log("Te lo devuelvo",props.project._id );
+    getAllTasks(props.project._id).then((tasks) => {
       setTasks(tasks);
     });
   }
@@ -27,17 +31,25 @@ export default function TaskList(props) {
   const handleUpdateMyTasks = () => {
     getTasks();
   }
-
-  const askForCreate = () => {
+  const askForUpdateProject = () => {
+    
+    setShowEditProjectModal(
+      <Modal isOpen="true">
+        <Button background-color='#007bff' color='#ffffff' onClick={() => setShowEditProjectModal(null)}><ImCross /></Button>
+        <EditProject closeCreateTask={setShowEditProjectModal} project={props.project}/>
+      </Modal>
+    );
+  }
+  const askForCreateTask = () => {
     setShowAddTaskModal(
       <Modal isOpen="true">
         <Button background-color='#007bff' color='#ffffff' onClick={() => setShowAddTaskModal(null)}><ImCross /></Button>
-        <AddTask updateMyTasks={handleUpdateMyTasks} closeCreateTask={setShowAddTaskModal} />
+        <AddTask updateMyTasks={handleUpdateMyTasks} closeCreateTask={setShowAddTaskModal} project_id={props.project._id} />
       </Modal>
     );
   }
 
-  const askForUpdate = (task) => {
+  const askForUpdateTask = (task) => {
     setShowEditTaskModal(
       <Modal isOpen="true" className={props.className}>
         <Button background-color='#007bff' color='#ffffff' onClick={() => setShowEditTaskModal(null)}><ImCross /></Button>
@@ -50,17 +62,24 @@ export default function TaskList(props) {
       .then((res) => handleUpdateMyTasks());
 
   }
-
+  
   useEffect(() => {
     getTasks();
-  }, []);
+  }, [props.project]);
+
   return (
     <div>
+      
       {showAddTaskModal}
       {showEditTaskModal}
+      {showEditProjectModal}
       <Row>
         <Col>
-          <CardTitle tag="center"><Alert color="secondary"><strong>Project Name </strong><Badge pill>{tasks.length}</Badge></Alert></CardTitle>
+          <CardTitle tag="center"><Alert color="secondary">
+
+          <h2><Row><Col align="right"></Col>{props.project.name} <Col align="right"><Button  color="dark" onClick={() => askForUpdateProject()}><BiSliderAlt /></Button></Col></Row></h2> 
+
+          </Alert></CardTitle>
           <Table>
             <tbody>
               {tasks.map((task, index) => {
@@ -72,13 +91,13 @@ export default function TaskList(props) {
                           <CardBody >
                             <Row>
                               <Col>
-                                <h1>{task.name}</h1>
+                                <h4>{task.name}</h4>
                               </Col>
                               <Col>
-                                <h2>{formatDate(task.deadline)}</h2>
+                                <h4>{formatDate(task.deadline)}</h4>
                               </Col>
                               <Col align="right">
-                                <Button outline color="dark" onClick={() => askForUpdate(task)}><FaEdit /></Button>
+                                <Button outline color="dark" onClick={() => askForUpdateTask(task)}><FaEdit /></Button>
                                 {' '}
                                 <Button outline color="dark" onClick={() => deleteTaskSel(task)}><FaTrashAlt /></Button>
                               </Col>
@@ -90,7 +109,7 @@ export default function TaskList(props) {
                     <br />
                   </div>)
               })}
-              <Button className='flexbox' color="primary" onClick={() => askForCreate()}><AiOutlinePlus /></Button>
+              <Button className='flexbox' color="primary" onClick={() => askForCreateTask()}><AiOutlinePlus /></Button>
             </tbody>
           </Table>
         </Col>
@@ -100,7 +119,6 @@ export default function TaskList(props) {
 }
 function colorPriority(priority){
   var color;
-  var color2;
   switch (priority) {
     case "Low":
       color="#6dffe5";

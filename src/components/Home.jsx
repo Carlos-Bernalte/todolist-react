@@ -1,61 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Container, Button, Modal, Label, Input, Form, FormGroup } from 'reactstrap';
-import Project from './task/Project';
+import { Row, Col, Container, Button, Modal, Form, FormGroup } from 'reactstrap';
+
 import '../App.css';
 import { AiOutlinePlus } from "react-icons/ai"
 import { ImCross } from "react-icons/im"
 import { Link } from 'react-router-dom';
 import { BsCollection } from 'react-icons/bs';
 import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
-import { getAllProjects, deleteProject, postNewProject } from "../utils/projects.js";
-import { Navigation } from 'react-minimal-side-navigation';
-import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
+import { getAllProjects } from "../utils/projects.js";
+import Project from './projects/Project';
+import AddProject from './projects/AddProject';
 export function Home(props) {
 
-  const [user, setUser] = useState({
-    'admin': false,
-    'email': "carlos@admin.com",
-    'password': "123",
-    'username': "tasty",
-    '__v': 0,
-    '_id': "62a8d57dc658c9a38209d16d"
-  });
-  console.log("HOME", user);
+  // const [user, setUser] = useState({
+  //   'admin': true,
+  //   'email': "carlos@admin.com",
+  //   'password': "123",
+  //   'username': "tasty",
+  //   '__v': 0,
+  //   '_id': "62a8d57dc658c9a38209d16d"
+  // });
+  sessionStorage.setItem("user", props.user);
+  console.log("Session: ",props.user);
+  const [user, setUser] = useState(sessionStorage.getItem("user"));
+
   const [showProject, setProject] = useState(null);
   const [projectList, setProjectList] = useState(null);
+
   const [showAddProjectModal, setShowAddProjectModal] = useState(null);
-  const [projectName, setProjectName] = useState(null);
-  const askForCreate = () => {
-    setShowAddProjectModal(
+  const [showProjectsModal, setShowProjectsModal] = useState(null);
+
+  const toggleProject = (project) => {
+    setProject(project);
+    setShowProjectsModal(null);
+  }
+
+  const listAllProjects = () => {
+    setShowProjectsModal(
       <Modal isOpen="true">
-        <Button background-color='#007bff' color='#ffffff' onClick={() => setShowAddProjectModal(null)}><ImCross /></Button>
+        <Button background-color='#007bff' color='#ffffff' onClick={() => setShowProjectsModal(null)}><ImCross /></Button>
         <Form>
           <FormGroup>
-            <Row >
-              <Col>
-                <Label for="aName">Name: </Label>
-                <Input style={{ height: '30px' }} type="textfield" name="name" value={projectName} id="aMensaje" placeholder="Task name" onChange={(e) => setProjectName(e.target.value)} />
+            {projectList.map((proj, index) => {
+              return (<Row > <Col>
+                <Button color="primary" onClick={() => toggleProject(proj)}>{proj.name}</Button>
+                {' '}
+
               </Col>
-            </Row>
+              </Row>)
+            })}
           </FormGroup>
-          <Row className="justify-content-md-center"><Button color="primary" onClick={addProject}>Add</Button></Row>
 
         </Form>
       </Modal>
     );
   }
-  const addProject = (e) => {
-    e.preventDefault();
-    //Save task in database with post api call
-    postNewProject(projectName, user._id)
-      .then((res) => checkPOSTNewProject(res));
+  
+  const askForCreateProject = () => {
+    setShowAddProjectModal(
+      <Modal isOpen="true" className={props.className}>
+        <Button background-color='#007bff' color='#ffffff' onClick={() => setShowAddProjectModal(null)}><ImCross /></Button>
+        <AddProject closeAddProject={setShowAddProjectModal} user={user} handleUpdateMyProjects={handleUpdateMyProjects}/>
+      </Modal>
+    );
   }
-  const checkPOSTNewProject = (res) => {
-    if (res === "OK") {
-      handleUpdateMyProjects();
-      setShowAddProjectModal(null);
-    }
-  }
+
   const handleUpdateMyProjects = () => {
     getProjects();
   }
@@ -70,66 +79,40 @@ export function Home(props) {
   return (
     <Container fluid>
       {showAddProjectModal}
-      {/* {showProject} */}
+      {showProjectsModal}
       <Row>
-        <Col xs={2} id="sidebar-wrapper" >
+        <Col xs={2} id="sidebar-wrapper">
           <div class="sidebar">
-            <Navigation
-              // you can use your own router's api to get pathname
-              activeItemId="/management/members"
+            <h1> ToDoList</h1>
+            <div class="sidebar-heading bg-light">{user.username.toUpperCase()}</div>
+            <div class="list-group list-group-flush">
+              {user.admin ? (
+                <a class="list-group-item list-group-item-action  p-3" href="#!"><AiOutlineUser />  Users</a>
+              ) : (
+                <div></div>
+              )}
+              <a class="list-group-item list-group-item-action  p-3" onClick={() => listAllProjects()}><BsCollection />  Projects</a>
 
-              onSelect={({ itemId }) => {
-                // maybe push to the route
-              }}
-              items={[
-                {
-                  title: <h2>To Do List</h2>,
-                  itemId: '/dashboard',
-                  // you can use your own custom Icon component as well
-                  // icon is optional
-                  // elemBefore: () => <Icon name="inbox" />,
-                },
-                {
-                  title: user.username.toUpperCase(),
-                  itemId: '/user',
-
-                },
-                {
-                  title: 'My Projects',
-                  itemId: '/myprojects',
-                  subNav: [
-                    // projectList.map((project, index) => {
-                    //   return ({
-                    //     title: 'project.name',
-                    //     itemId: '/management/teams',
-                    //   })
-                    //   })
-                  ]
-                },
-                {
-                  title: 'Shared with me',
-                  itemId: '/shared',
-                  subNav: [
-                    {
-                      title: 'Teams',
-                      itemId: '/management/teams',
-                    },
-                  ],
-                }
-              ]}
-            />
+            </div>
+            <Button className='flexbox' color="primary" onClick={() => askForCreateProject()}><AiOutlinePlus /></Button>
             <div class="sidebar-footer">
               <Link to="/sign-in"><a class="list-group-item list-group-item-action  p-3" ><AiOutlineLogout />  Logout</a></Link>
             </div>
-          </div>
 
+          </div>
         </Col>
         <Col xs={10} id="page-content-wrapper">
-          <Project project={showProject} />
+          {showProject ? (
+                 <Project project={showProject} />
+              ) : (
+                <div></div>
+              )}
+         
         </Col>
       </Row>
 
     </Container>
+
   );
 
 }

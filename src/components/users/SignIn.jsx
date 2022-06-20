@@ -9,8 +9,8 @@ export function Login(props) {
     const [msgError, setMsgError] = useState('');
     const sumbitUser = async (e) => {
         e.preventDefault();
-        // existsUser(username, password).then((res) => checkExistsUser(res));
-        existsUser('tasty', '123').then((res) => checkExistsUser(res));
+        existsUser(username, password).then((res) => checkExistsUser(res));
+        // existsUser('tasty', '123').then((res) => checkExistsUser(res));
     }
     let navigate = useNavigate(); 
     const checkExistsUser = (res) => {
@@ -46,7 +46,7 @@ export function Login(props) {
                             <button type="submit" className="btn btn-primary btn-block" onClick={sumbitUser}>Sumbit</button>
                         )}
                         <p className="forgot-password text-right">
-                            Don't have an account? <Link to="/sign-up">Sing Up</Link>
+                            Don't have an account? <Link to="/sign-up">Sign Up</Link>
                         </p>
                     </form>
                 </div>
