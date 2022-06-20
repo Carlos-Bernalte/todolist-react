@@ -4,7 +4,7 @@ import {
   Col, Row
 } from 'reactstrap';
 
-import { putExistingTask } from "../../utils/apicalls.js";
+import { putExistingTask } from "../../utils/tasks";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 

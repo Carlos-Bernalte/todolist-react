@@ -6,7 +6,7 @@ import {
 import { FaEdit, FaTrashAlt } from "react-icons/fa"
 import { AiOutlinePlus } from "react-icons/ai"
 import { ImCross } from "react-icons/im"
-import { getAllTasks, deleteTask } from "../../utils/apicalls.js";
+import { getAllTasks, deleteTask } from "../../utils/tasks.js";
 
 import EditTask from './EditTask';
 import AddTask from './AddTask';
@@ -51,20 +51,6 @@ export default function TaskList(props) {
 
   }
 
-  const showPriority = (priority) => {
-
-    if (priority === 'Low') {
-      console.log(priority)
-      return "#ffffff"
-    } else if (priority === 'Medium') {
-      console.log(priority)
-      return "#e7db13"
-    } else if (priority === 'High') {
-      console.log(priority)
-      return "#ff5e5e"
-    }
-  }
-
   useEffect(() => {
     getTasks();
   }, []);
@@ -82,20 +68,19 @@ export default function TaskList(props) {
                   <div>
                     <Row>
                       <Col>
-                        <Card>
-                          <CardBody>
+                        <Card style={{backgroundColor:colorPriority(task.priority)}}>
+                          <CardBody >
                             <Row>
                               <Col>
                                 <h1>{task.name}</h1>
                               </Col>
                               <Col>
                                 <h2>{formatDate(task.deadline)}</h2>
-                                <h2>{task.priority}</h2>
                               </Col>
                               <Col align="right">
-                                <Button outline inverse color="primary" onClick={() => askForUpdate(task)}><FaEdit /></Button>
+                                <Button outline color="dark" onClick={() => askForUpdate(task)}><FaEdit /></Button>
                                 {' '}
-                                <Button outline inverse color="primary" onClick={() => deleteTaskSel(task)}><FaTrashAlt /></Button>
+                                <Button outline color="dark" onClick={() => deleteTaskSel(task)}><FaTrashAlt /></Button>
                               </Col>
                             </Row>
                           </CardBody>
@@ -113,6 +98,26 @@ export default function TaskList(props) {
     </div>
   );
 }
+function colorPriority(priority){
+  var color;
+  var color2;
+  switch (priority) {
+    case "Low":
+      color="#6dffe5";
+      break;
+    case "Medium":
+      color="#f3db4d";
+      break;
+    case "High":
+      color="#f06161";
+      break;
+    default:
+      color="#ededed"
+      break;
+  }
+  return color;
+}
+
 function formatDate(date) {
   var d = new Date(date),
     month = '' + (d.getMonth() + 1),
