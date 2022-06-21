@@ -20,6 +20,7 @@ export default function AddProject(props) {
   }
   const checkPOSTNewProject = (res) => {
     if (res === "OK") {
+      props.handleUpdateMyProjects()
       props.closeAddProject(null);
       setProjectName('')
     }

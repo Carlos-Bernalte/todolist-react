@@ -7,8 +7,8 @@ export {
     putExistingProject
 }
 
-function getAllProjects() {
-    return API.get('/Projects').then(res => res.data);
+function getAllProjects(owner) {
+    return API.get('/Projects/'+owner).then(res => res.data);
 }
 
 function deleteProject(idProject) {

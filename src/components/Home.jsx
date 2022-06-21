@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Container, Button, Modal, Form, FormGroup } from 'reactstrap';
-
+import { useNavigate } from "react-router-dom";
 import '../App.css';
 import { AiOutlinePlus } from "react-icons/ai"
 import { ImCross } from "react-icons/im"
@@ -10,6 +10,7 @@ import { AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import { getAllProjects } from "../utils/projects.js";
 import Project from './projects/Project';
 import AddProject from './projects/AddProject';
+import UsersList from './users/Users';
 export function Home(props) {
 
   // const [user, setUser] = useState({
@@ -20,9 +21,13 @@ export function Home(props) {
   //   '__v': 0,
   //   '_id': "62a8d57dc658c9a38209d16d"
   // });
-  sessionStorage.setItem("user", props.user);
-  console.log("Session: ",props.user);
-  const [user, setUser] = useState(sessionStorage.getItem("user"));
+  let navigate = useNavigate();
+  const [user, setUser] = useState({ 
+    '_id': sessionStorage.getItem('id'),
+    'username': sessionStorage.getItem('username'),
+    'email': sessionStorage.getItem('email'),
+    'admin': sessionStorage.getItem('admin')
+  });
 
   const [showProject, setProject] = useState(null);
   const [projectList, setProjectList] = useState(null);
@@ -30,10 +35,14 @@ export function Home(props) {
   const [showAddProjectModal, setShowAddProjectModal] = useState(null);
   const [showProjectsModal, setShowProjectsModal] = useState(null);
 
+  const [show, setShow] = useState(<div></div>);
+
   const toggleProject = (project) => {
     setProject(project);
+    setShow(<Project project={project} setProject={setProject} handleUpdateMyProjects={handleUpdateMyProjects}/>);
     setShowProjectsModal(null);
   }
+
 
   const listAllProjects = () => {
     setShowProjectsModal(
@@ -69,13 +78,25 @@ export function Home(props) {
     getProjects();
   }
   const getProjects = () => {
-    getAllProjects().then((projectList) => {
+    getAllProjects(user._id).then((projectList) => {
       setProjectList(projectList);
     });
   }
   useEffect(() => {
     getProjects();
   }, []);
+  const handleOnShow = (option) => {
+    if (option === 1){
+      setShow(<UsersList />);
+    }else if (option === 2){
+      listAllProjects();
+      
+    }
+  }
+  if (sessionStorage.getItem("username") === null){
+    navigate("/");
+  }
+  else{
   return (
     <Container fluid>
       {showAddProjectModal}
@@ -86,12 +107,12 @@ export function Home(props) {
             <h1> ToDoList</h1>
             <div class="sidebar-heading bg-light">{user.username.toUpperCase()}</div>
             <div class="list-group list-group-flush">
-              {user.admin ? (
-                <a class="list-group-item list-group-item-action  p-3" href="#!"><AiOutlineUser />  Users</a>
+              {user.admin==="true" ? (
+                <a class="list-group-item list-group-item-action  p-3" onClick={() => handleOnShow(1)}><AiOutlineUser />  Users</a>
               ) : (
                 <div></div>
               )}
-              <a class="list-group-item list-group-item-action  p-3" onClick={() => listAllProjects()}><BsCollection />  Projects</a>
+              <a class="list-group-item list-group-item-action  p-3" onClick={() =>  handleOnShow(2)}><BsCollection />  Projects</a>
 
             </div>
             <Button className='flexbox' color="primary" onClick={() => askForCreateProject()}><AiOutlinePlus /></Button>
@@ -102,11 +123,8 @@ export function Home(props) {
           </div>
         </Col>
         <Col xs={10} id="page-content-wrapper">
-          {showProject ? (
-                 <Project project={showProject} />
-              ) : (
-                <div></div>
-              )}
+
+          {show}
          
         </Col>
       </Row>
@@ -114,5 +132,5 @@ export function Home(props) {
     </Container>
 
   );
-
+              }
 }

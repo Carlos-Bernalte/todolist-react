@@ -22,7 +22,7 @@ export default function Project(props) {
   const [showEditProjectModal, setShowEditProjectModal] = useState(null);
  
   const getTasks = () => {
-    console.log("Te lo devuelvo",props.project._id );
+
     getAllTasks(props.project._id).then((tasks) => {
       setTasks(tasks);
     });
@@ -36,7 +36,7 @@ export default function Project(props) {
     setShowEditProjectModal(
       <Modal isOpen="true">
         <Button background-color='#007bff' color='#ffffff' onClick={() => setShowEditProjectModal(null)}><ImCross /></Button>
-        <EditProject closeCreateTask={setShowEditProjectModal} project={props.project}/>
+        <EditProject closeUpdateProject={setShowEditProjectModal} project={props.project} setProject={props.setProject} handleUpdateMyProjects={props.handleUpdateMyProjects}/>
       </Modal>
     );
   }

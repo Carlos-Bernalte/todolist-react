@@ -10,24 +10,31 @@ import { putExistingProject, deleteProject } from "../../utils/projects";
 export default function EditProject(props) {
 
 
-  const [name, setName] = useState();
+  const [name, setName] = useState(props.project.name);
 
 
-  const updateProject = (e) => {
-    e.preventDefault();
-    putExistingProject(props.task._id, name)
-      .then((res) => checkPUTTask(res));
+  const updateProject = () => {
+    
+    putExistingProject(props.project._id, name)
+      .then((res) =>  checkPUTProject(res));
   }
-  const deleteProject = (e) => {
-    e.preventDefault();
+  const deleteProjectSel = () => {
     deleteProject(props.project._id)
-      .then((res) => checkPUTTask(res));
+      .then((res) => checkDeleteProject(res));
   }
 
   //Check the response from the server
-  const checkPUTTask = (res) => {
+  const checkPUTProject = (res) => {
     if (res === "OK"){
-      props.closeEditProject(null)
+      props.handleUpdateMyProjects();
+      props.closeUpdateProject(null);
+    }
+  }
+  const checkDeleteProject = (res) => {
+    if (res === "OK"){
+      props.setProject(null);
+      props.handleUpdateMyProjects();
+      props.closeUpdateProject(null);
     }
   }
 
@@ -50,7 +57,7 @@ export default function EditProject(props) {
             <Col align="center">
                 <Button color="primary" onClick={updateProject}>Update</Button>
                 {' '}
-                <Button color="danger" onClick={deleteProject}>Delete</Button>
+                <Button color="danger" onClick={deleteProjectSel}>Delete</Button>
             </Col>
         </Row>
 

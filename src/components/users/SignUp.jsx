@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './users.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { postNewUser } from "../../utils/users.js";
 export function SignUp(props) {
 
@@ -24,6 +24,7 @@ export function SignUp(props) {
         return /^\w+([-]?\w+)*@\w+([-]?\w+)*(\w{2,4})+$/.test(value);
         
     }
+    let navigate = useNavigate(); 
     //Check the response from the server
     const checkPOSTNewUser = (res) => {
         if (res === "OK") {
@@ -32,7 +33,7 @@ export function SignUp(props) {
             setPassword('');
             setPassword2('');
             setMsgError('');
-            props.history.push('/sign-in')
+            navigate("/");
         }
     }
 
@@ -44,7 +45,7 @@ export function SignUp(props) {
                         <h3>Sign Up</h3>
                         <div className="form-group">
                             <label>Username*</label>
-                            <input type="text" value={username} className="form-control" placeholder="First name" onChange={(e) => setUsername(e.target.value)} />
+                            <input type="text" value={username} className="form-control" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label>Email address*</label>

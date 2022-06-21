@@ -8,7 +8,7 @@ import { putExistingTask } from "../../utils/tasks";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'
 
-export default function AddTask(props) {
+export default function EditTask(props) {
 
 
   const [name, setName] = useState(props.task.name);

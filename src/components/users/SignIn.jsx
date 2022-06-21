@@ -15,8 +15,12 @@ export function Login(props) {
     let navigate = useNavigate(); 
     const checkExistsUser = (res) => {
         if (res !== false) {
-            setMsgError("CORRECT!");
+            console.log("CORRECT!");
             props.setUser(res);
+            sessionStorage.setItem('id', res._id);
+            sessionStorage.setItem('username', res.username);
+            sessionStorage.setItem('email', res.email);
+            sessionStorage.setItem('admin', res.admin);
             navigate("/home/"+res.username);
         }else{
             setMsgError("User and password are incorrect!");
@@ -41,9 +45,9 @@ export function Login(props) {
                             {msgError}
                         </p>
                         {!username  || !password  ? (
-                            <button type="submit" disabled={true} className="btn btn-primary btn-block" onClick={sumbitUser}>Sumbit</button>
+                            <button type="submit" disabled={true} className="btn btn-primary btn-block" onClick={sumbitUser}>Sign In</button>
                         ) : (
-                            <button type="submit" className="btn btn-primary btn-block" onClick={sumbitUser}>Sumbit</button>
+                            <button type="submit" className="btn btn-primary btn-block" onClick={sumbitUser}>Sign In</button>
                         )}
                         <p className="forgot-password text-right">
                             Don't have an account? <Link to="/sign-up">Sign Up</Link>

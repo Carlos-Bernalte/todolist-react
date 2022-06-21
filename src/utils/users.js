@@ -46,10 +46,10 @@ function postNewUser(username, password, email) {
     }).then(result => result.data);
 }
 
-  function putExistingUser(iduser,username, password, email) {
+  function putExistingUser(iduser,username, email, admin) {
     return API.put('/users/'+iduser, {
         username,
-        password,
         email,
+        admin
     }).then(result => result.data);
 }
