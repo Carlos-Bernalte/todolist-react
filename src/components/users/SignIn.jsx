@@ -9,18 +9,19 @@ export function Login(props) {
     const [msgError, setMsgError] = useState('');
     const sumbitUser = async (e) => {
         e.preventDefault();
+        
         existsUser(username, password).then((res) => checkExistsUser(res));
         // existsUser('tasty', '123').then((res) => checkExistsUser(res));
     }
     let navigate = useNavigate(); 
     const checkExistsUser = (res) => {
-        if (res !== false) {
-            console.log("CORRECT!");
-            props.setUser(res);
-            sessionStorage.setItem('id', res._id);
-            sessionStorage.setItem('username', res.username);
-            sessionStorage.setItem('email', res.email);
-            sessionStorage.setItem('admin', res.admin);
+        console.log(res);
+        if (res !== null) {
+            console.log(res[0]);
+            sessionStorage.setItem('id', res[0]._id);
+            sessionStorage.setItem('username', res[0].username);
+            sessionStorage.setItem('email', res[0].email);
+            sessionStorage.setItem('admin', res[0].admin);
             navigate("/home/"+res.username);
         }else{
             setMsgError("User and password are incorrect!");

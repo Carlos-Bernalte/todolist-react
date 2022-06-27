@@ -36,7 +36,7 @@ export default function Project(props) {
     setShowEditProjectModal(
       <Modal isOpen="true">
         <Button background-color='#007bff' color='#ffffff' onClick={() => setShowEditProjectModal(null)}><ImCross /></Button>
-        <EditProject closeUpdateProject={setShowEditProjectModal} project={props.project} setProject={props.setProject} handleUpdateMyProjects={props.handleUpdateMyProjects}/>
+        <EditProject tasks={tasks} closeUpdateProject={setShowEditProjectModal} project={props.project} setProject={props.setProject} handleUpdateMyProjects={props.handleUpdateMyProjects}/>
       </Modal>
     );
   }

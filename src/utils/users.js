@@ -9,23 +9,14 @@ export {
 }
 // Function to return if a user exists sending the username and password provided and router object
 function existsUser(username, password) {
-    return API.get('/users/' + username)
-        .then(function (response) {
-            if (response.data.length > 0) {
-                if(response.data[0].password === password) {
-                    return response.data[0];
-                }else{
-                    return false;
-                }
-        
-            } else {
-                return false;  
-            }
-        }
-        ).catch(function (error) {
-            console.log(error);
-        }
-        );
+    return API.put('/users/' + username,{password}).then(res => res.data);
+}
+function putExistingUser(iduser,username, email, admin) {
+    return API.put('/users/'+iduser, {
+        username,
+        email,
+        admin
+    }).then(result => result.data);
 }
 
 function getAllUsers() {
@@ -46,10 +37,3 @@ function postNewUser(username, password, email) {
     }).then(result => result.data);
 }
 
-  function putExistingUser(iduser,username, email, admin) {
-    return API.put('/users/'+iduser, {
-        username,
-        email,
-        admin
-    }).then(result => result.data);
-}

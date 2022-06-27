@@ -5,7 +5,7 @@ import {
 } from 'reactstrap';
 
 import { putExistingProject, deleteProject } from "../../utils/projects";
-
+import { deleteTask } from '../../utils/tasks';
 
 export default function EditProject(props) {
 
@@ -19,6 +19,9 @@ export default function EditProject(props) {
       .then((res) =>  checkPUTProject(res));
   }
   const deleteProjectSel = () => {
+    props.tasks.forEach(function(task, index) {
+      deleteTask(task._id);
+    })
     deleteProject(props.project._id)
       .then((res) => checkDeleteProject(res));
   }
