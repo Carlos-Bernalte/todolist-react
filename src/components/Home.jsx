@@ -13,14 +13,6 @@ import AddProject from './projects/AddProject';
 import UsersList from './users/Users';
 export function Home(props) {
 
-  // const [user, setUser] = useState({
-  //   'admin': true,
-  //   'email': "carlos@admin.com",
-  //   'password': "123",
-  //   'username': "tasty",
-  //   '__v': 0,
-  //   '_id': "62a8d57dc658c9a38209d16d"
-  // });
   let navigate = useNavigate();
   const [user, setUser] = useState({ 
     '_id': sessionStorage.getItem('id'),
@@ -85,6 +77,8 @@ export function Home(props) {
   useEffect(() => {
     getProjects();
   }, []);
+
+
   const handleOnShow = (option) => {
     if (option === 1){
       setShow(<UsersList />);
